@@ -24,3 +24,4 @@ yarn-error.log
 .DS_Store
 _ide_*.php
 .phpstorm.meta.php
+laradumps.yaml
