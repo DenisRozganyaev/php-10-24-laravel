@@ -12,17 +12,20 @@
         "php": "^8.2",
         "laravel/framework": "^11.31",
         "laravel/tinker": "^2.9",
+        "laravel/ui": "^4.6",
         "spatie/laravel-permission": "^6.10"
     },
     "require-dev": {
         "barryvdh/laravel-ide-helper": "3.2.2",
         "fakerphp/faker": "^1.23",
+        "laradumps/laradumps": "^3.0",
         "laravel/pail": "^1.1",
         "laravel/pint": "^1.13",
         "laravel/sail": "^1.26",
         "mockery/mockery": "^1.6",
         "nunomaduro/collision": "^8.1",
-        "phpunit/phpunit": "^11.0.1"
+        "phpunit/phpunit": "^11.0.1",
+        "smknstd/fakerphp-picsum-images": "^1.0"
     },
     "autoload": {
         "psr-4": {
