@@ -13,4 +13,6 @@ Route::prefix('admin')->name('admin.')->middleware(['auth', 'role:admin|moderato
     Route::get('/', DashboardController::class)->name('dashboard'); // domain/admin/ | admin.dashboard
     Route::resource('categories', \App\Http\Controllers\Admin\CategoriesController::class)
         ->except(['show']);
+    Route::resource('products', \App\Http\Controllers\Admin\ProductsController::class)
+        ->except(['show']);
 });
