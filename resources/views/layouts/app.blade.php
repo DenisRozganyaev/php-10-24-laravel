@@ -30,7 +30,8 @@
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
                     <!-- Left Side Of Navbar -->
                     <ul class="navbar-nav me-auto">
-
+                        <li class="nav-item"><a href="{{route('products.index')}}" class="nav-link">Products</a></li>
+                        <li class="nav-item"><a href="{{route('categories.index')}}" class="nav-link">Categories</a></li>
                     </ul>
 
                     <!-- Right Side Of Navbar -->
@@ -55,6 +56,9 @@
                                 </a>
 
                                 <div class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
+                                    @hasanyrole('admin|moderator')
+                                        <a href="{{route('admin.dashboard')}}" class="dropdown-item">Admin panel</a>
+                                    @endhasanyrole
                                     <a class="dropdown-item" href="{{ route('logout') }}"
                                        onclick="event.preventDefault();
                                                      document.getElementById('logout-form').submit();">

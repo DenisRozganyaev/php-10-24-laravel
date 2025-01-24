@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Observers\ProductObserver;
+use App\Services\Contracts\FileServiceContract;
 use Illuminate\Database\Eloquent\Attributes\ObservedBy;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -20,6 +21,11 @@ class Product extends Model
     use HasFactory;
 
     protected $guarded = [];
+
+    public function getRouteKeyName(): string
+    {
+        return 'slug';
+    }
 
     public function images(): MorphMany
     {
@@ -45,13 +51,18 @@ class Product extends Model
             Storage::delete($this->attributes['thumbnail']);
         }
 
-        $fileName = Str::slug(microtime());
-        $filePath = 'products/' . $this->attributes['slug'] . "/$fileName" . $file->getClientOriginalName();
+        $filePath = 'products/' . $this->attributes['slug'];
 
-        Storage::put($filePath, File::get($file));
-        Storage::setVisibility($filePath, 'public');
+//        Storage::put($filePath, File::get($file));
+//        Storage::setVisibility($filePath, 'public');
 
-        $this->attributes['thumbnail'] = $filePath;
+        $this->attributes['thumbnail'] = app(FileServiceContract::class)
+            ->upload($file, $filePath);
+    }
+
+    public function finalPrice(): Attribute
+    {
+        return Attribute::get(fn () => $this->attributes['price'] - ($this->attributes['discount'] / 100));
     }
 
     public function imagesFolderPath(): string
