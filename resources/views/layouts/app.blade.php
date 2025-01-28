@@ -12,6 +12,7 @@
     <!-- Fonts -->
     <link rel="dns-prefetch" href="//fonts.bunny.net">
     <link href="https://fonts.bunny.net/css?family=Nunito" rel="stylesheet">
+    <link href="{{ asset('css/iziToast.css') }}" rel="stylesheet">
 
     <!-- Scripts -->
     @vite(['resources/sass/app.scss', 'resources/js/app.js'])
@@ -36,6 +37,17 @@
 
                     <!-- Right Side Of Navbar -->
                     <ul class="navbar-nav ms-auto">
+                        <li class="nav-item">
+                            <a class="nav-link position-relative" href="{{ route('cart.index') }}">
+                                <i class="fa-solid fa-cart-shopping"></i>
+                                <span
+                                    id="cartCountBadge"
+                                    style="font-size: 10px;"
+                                    class="position-absolute top-20 start-90 translate-middle badge rounded-pill bg-info">
+                                {{Cart::instance('cart')->countItems()}}
+                              </span>
+                            </a>
+                        </li>
                         <!-- Authentication Links -->
                         @guest
                             @if (Route::has('login'))
@@ -80,5 +92,7 @@
             @yield('content')
         </main>
     </div>
+    <script src="{{ asset('js/iziToast.js') }}"></script>
+    @include('vendor.lara-izitoast.toast')
 </body>
 </html>
