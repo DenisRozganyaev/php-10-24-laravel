@@ -86,20 +86,20 @@
 {{--                        </div>--}}
 {{--                    </div>--}}
 {{--                @endif--}}
-{{--                <div class="row mt-5">--}}
-{{--                    <div class="col-12 col-sm-6"></div>--}}
-{{--                    <div class="col-12 col-sm-6">--}}
-{{--                        <div class="card">--}}
-{{--                            <form method="POST" action="{{ route('cart.add', $product) }}"--}}
-{{--                                  class="card-body d-flex align-items-center justify-content-between">--}}
-{{--                                @csrf--}}
+                <div class="row mt-5">
+                    <div class="col-12 col-sm-6"></div>
+                    <div class="col-12 col-sm-6">
+                        <div class="card">
+                            <form method="POST" action="{{ route('cart.add', $product) }}"
+                                  class="card-body d-flex align-items-center justify-content-between">
+                                @csrf
 {{--                                <input type="hidden" name="option" value="{{$selectedOption}}" />--}}
-{{--                                <div class="card-title">Price: <strong class="fs-5">{{ $price }} $</strong></div>--}}
-{{--                                <button type="submit" class="btn btn-outline-success">Buy</button>--}}
-{{--                            </form>--}}
-{{--                        </div>--}}
-{{--                    </div>--}}
-{{--                </div>--}}
+                                <div class="card-title">Price: <strong class="fs-5">{{ $product->finalPrice }} $</strong></div>
+                                <button type="submit" class="btn btn-outline-success">Buy</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
             </div>
             <div class="col-12 mt-3">
                 <hr>
