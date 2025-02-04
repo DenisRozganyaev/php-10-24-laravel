@@ -39,6 +39,11 @@ class Product extends Model implements Buyable
         return $this->belongsToMany(Category::class);
     }
 
+    public function orders(): BelongsToMany
+    {
+        return $this->belongsToMany(Order::class);
+    }
+
     // $product->thumbnailUrl
     public function thumbnailUrl(): Attribute
     {
