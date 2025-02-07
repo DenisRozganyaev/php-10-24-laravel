@@ -14,5 +14,5 @@ interface OrderRepositoryContract
         string $vendorOrderId,
         PaymentSystemEnum $paymentSystem,
         TransactionStatusesEnum $status
-    ): Order;
+    ): void;
 }

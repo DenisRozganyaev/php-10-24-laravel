@@ -59,7 +59,7 @@ class PaypalController extends Controller
 
             $paymentStatus = $this->paypalService->capture($vendorOrderId);
 
-            $order = $this->orderRepository->setTransaction(
+            $this->orderRepository->setTransaction(
                 $vendorOrderId,
                 PaymentSystemEnum::Paypal,
                 $paymentStatus
@@ -69,7 +69,9 @@ class PaypalController extends Controller
 
             DB::commit();
 
-            return response()->json($order);
+            return response()->json([
+                'orderId' => $vendorOrderId
+            ]);
         } catch (Throwable $exception) {
             DB::rollBack();
 

@@ -17,6 +17,7 @@ Route::resource('products', \App\Http\Controllers\ProductsController::class)
 Route::resource('categories', \App\Http\Controllers\CategoriesController::class)
     ->only(['index', 'show']);
 
+Route::get('/orders/{vendor_order_id}/thank-you', \App\Http\Controllers\Pages\ThankYouController::class);
 Route::get('checkout', CheckoutController::class)->name('checkout');
 Route::name('cart.')->prefix('cart')->group(function () {
     Route::get('/', [CartController::class, 'index'])->name('index');

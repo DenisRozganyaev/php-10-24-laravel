@@ -32,7 +32,13 @@ class PaypalService implements Contracts\PaypalServiceContract
 
     public function capture(string $vendorOrderId): TransactionStatusesEnum
     {
-        return TransactionStatusesEnum::Pending;
+        $result = $this->payPal->capturePaymentOrder($vendorOrderId);
+
+        return match ($result['status']) {
+            'COMPLETED', 'APPROVED' => TransactionStatusesEnum::Success,
+            'CREATED', 'SAVED' => TransactionStatusesEnum::Pending,
+            default => TransactionStatusesEnum::Cancelled
+        };
     }
 
     protected function buildOrderRequestData(): array
@@ -51,11 +57,11 @@ class PaypalService implements Contracts\PaypalServiceContract
                     'category' => 'PHYSICAL_GOODS',
                     'unit_amount' => [
                         'currency_code' => $currencyCode,
-                        'value' => $item->price,
+                        'value' => $item->price(),
                     ],
                     'tax' => [
                         'currency_code' => $currencyCode,
-                        'value' => round($item->price / 100 * $item->taxRate, 2),
+                        'value' => $item->tax(),
                     ]
                 ];
             });
