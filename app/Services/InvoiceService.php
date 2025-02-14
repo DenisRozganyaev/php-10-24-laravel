@@ -44,7 +44,6 @@ class InvoiceService implements InvoiceServiceContract
 
         foreach ($products as $product) {
             $items[] = InvoiceItem::make($product->pivot->name)
-                ->description($product->description)
                 ->quantity($product->pivot->quantity)
                 ->pricePerUnit($product->pivot->single_price)
                 ->units('шт');

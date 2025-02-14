@@ -15,8 +15,9 @@ class ThankYouController extends Controller
             $order = Order::with(['transaction', 'products'])
                 ->where('vendor_order_id', $vendorOrderId)
                 ->firstOrFail();
+            $showInvoiceBtn = !!$order->user_id;
 
-            return view('orders/thank-you', compact('order'));
+            return view('orders/thank-you', compact('order', 'showInvoiceBtn'));
         } catch (Throwable $throwable) {
             logs()->error("[ThankYouController] " . $throwable->getMessage(), [
                 'exception' => $throwable,
