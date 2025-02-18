@@ -3,6 +3,7 @@
 use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Ajax\AddToCartController;
 use App\Http\Controllers\Ajax\Payments\PaypalController;
+use App\Http\Controllers\Ajax\Payments\StripeController;
 use App\Http\Controllers\Ajax\RemoveImageController;
 use App\Http\Controllers\CartController;
 use App\Http\Controllers\CheckoutController;
@@ -57,4 +58,6 @@ Route::prefix('ajax')->name('ajax.')->group(function () {
        Route::post('order', [PayPalController::class, 'create'])->name('order.create');
        Route::post('order/{vendorOrderId}/capture', [PayPalController::class, 'capture'])->name('order.capture');
     });
+
+    Route::post('stripe/order', [StripeController::class, 'create'])->name('stripe.order.create');
 });
