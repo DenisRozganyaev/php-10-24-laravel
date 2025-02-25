@@ -70,6 +70,15 @@ $(document).ready(function () {
                         position: 'topRight'
                     })
                 } else if (paymentIntent && paymentIntent.status === 'succeeded') {
+
+                    // axios.post('stripe/capture', {
+                    //      status: paymentIntent.status
+                    // }).then(() => {
+                    /*iziToast.success({
+                        title: 'Payment was completed',
+                        position: 'topRight'
+                    })*/
+                    // )
                     iziToast.success({
                         title: 'Payment was completed',
                         position: 'topRight'

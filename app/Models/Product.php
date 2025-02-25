@@ -13,9 +13,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\MorphMany;
 use Illuminate\Http\UploadedFile;
-use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Storage;
-use Illuminate\Support\Str;
 
 #[ObservedBy([ProductObserver::class])]
 class Product extends Model implements Buyable
@@ -26,7 +24,7 @@ class Product extends Model implements Buyable
 
     public function getRouteKeyName(): string
     {
-        return 'slug';
+        return request()->wantsJson() ? 'id' : 'slug';
     }
 
     public function images(): MorphMany
