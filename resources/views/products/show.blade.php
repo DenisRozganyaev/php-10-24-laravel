@@ -30,71 +30,79 @@
                     </div>
                 </div>
 
-{{--                @auth()--}}
-{{--                    <div class="row mt-5">--}}
-{{--                        <div class="col-12">--}}
-{{--                            <h4>Wish List</h4>--}}
-{{--                        </div>--}}
-{{--                        <div class="col-12 col-sm-6">--}}
-{{--                            @include('products.parts.wishlist.exist', ['product' => $product, 'isFollowed' => $wishes['in_stock'], 'mini' => false])--}}
-{{--                        </div>--}}
-{{--                        <div class="col-12 col-sm-6">--}}
-{{--                            @include('products.parts.wishlist.price', ['product' => $product, 'isFollowed' => $wishes['price'], 'mini' => false])--}}
-{{--                        </div>--}}
-{{--                    </div>--}}
-{{--                @endauth--}}
+                {{--                @auth()--}}
+                {{--                    <div class="row mt-5">--}}
+                {{--                        <div class="col-12">--}}
+                {{--                            <h4>Wish List</h4>--}}
+                {{--                        </div>--}}
+                {{--                        <div class="col-12 col-sm-6">--}}
+                {{--                            @include('products.parts.wishlist.exist', ['product' => $product, 'isFollowed' => $wishes['in_stock'], 'mini' => false])--}}
+                {{--                        </div>--}}
+                {{--                        <div class="col-12 col-sm-6">--}}
+                {{--                            @include('products.parts.wishlist.price', ['product' => $product, 'isFollowed' => $wishes['price'], 'mini' => false])--}}
+                {{--                        </div>--}}
+                {{--                    </div>--}}
+                {{--                @endauth--}}
 
-{{--                @if ($attributes)--}}
-{{--                    <div class="row mt-5">--}}
-{{--                        <div class="col-12 col-sm-6">{{ $attributeKey }}</div>--}}
-{{--                        <div class="col-12 col-sm-6">--}}
-{{--                            <div class="card">--}}
-{{--                                <form method="GET" action="{{ route('products.show', $product) }}"--}}
-{{--                                      class="card-body d-flex align-items-center justify-content-between">--}}
+                {{--                @if ($attributes)--}}
+                {{--                    <div class="row mt-5">--}}
+                {{--                        <div class="col-12 col-sm-6">{{ $attributeKey }}</div>--}}
+                {{--                        <div class="col-12 col-sm-6">--}}
+                {{--                            <div class="card">--}}
+                {{--                                <form method="GET" action="{{ route('products.show', $product) }}"--}}
+                {{--                                      class="card-body d-flex align-items-center justify-content-between">--}}
 
-{{--                                    <table class="table table-striped-columns">--}}
-{{--                                        <thead>--}}
-{{--                                        <tr>--}}
-{{--                                            <th>Attribute</th>--}}
-{{--                                            <th>Quantity</th>--}}
-{{--                                            <th>Price</th>--}}
-{{--                                        </tr>--}}
-{{--                                        </thead>--}}
-{{--                                        <tbody>--}}
-{{--                                        @foreach($attributes as $attr)--}}
-{{--                                            <tr>--}}
-{{--                                                <td>--}}
-{{--                                                    <input type="radio"--}}
-{{--                                                           class="btn-check product-attr-radio"--}}
-{{--                                                           name="option"--}}
-{{--                                                           value="{{$attr->id}}"--}}
-{{--                                                           id="option-{{$attr->value}}"--}}
-{{--                                                           autocomplete="off"--}}
-{{--                                                           @if ($selectedOption == $attr->id) checked @endif--}}
-{{--                                                    >--}}
-{{--                                                    <label class="btn"--}}
-{{--                                                           for="option-{{$attr->value}}">{{$attr->value}}</label>--}}
-{{--                                                </td>--}}
-{{--                                                <td>{{$attr->pivot->quantity}}</td>--}}
-{{--                                                <td>{{$product->finalPrice($attr->pivot->price)}} $</td>--}}
-{{--                                            </tr>--}}
-{{--                                        @endforeach--}}
-{{--                                        </tbody>--}}
-{{--                                    </table>--}}
-{{--                                </form>--}}
-{{--                            </div>--}}
-{{--                        </div>--}}
-{{--                    </div>--}}
-{{--                @endif--}}
+                {{--                                    <table class="table table-striped-columns">--}}
+                {{--                                        <thead>--}}
+                {{--                                        <tr>--}}
+                {{--                                            <th>Attribute</th>--}}
+                {{--                                            <th>Quantity</th>--}}
+                {{--                                            <th>Price</th>--}}
+                {{--                                        </tr>--}}
+                {{--                                        </thead>--}}
+                {{--                                        <tbody>--}}
+                {{--                                        @foreach($attributes as $attr)--}}
+                {{--                                            <tr>--}}
+                {{--                                                <td>--}}
+                {{--                                                    <input type="radio"--}}
+                {{--                                                           class="btn-check product-attr-radio"--}}
+                {{--                                                           name="option"--}}
+                {{--                                                           value="{{$attr->id}}"--}}
+                {{--                                                           id="option-{{$attr->value}}"--}}
+                {{--                                                           autocomplete="off"--}}
+                {{--                                                           @if ($selectedOption == $attr->id) checked @endif--}}
+                {{--                                                    >--}}
+                {{--                                                    <label class="btn"--}}
+                {{--                                                           for="option-{{$attr->value}}">{{$attr->value}}</label>--}}
+                {{--                                                </td>--}}
+                {{--                                                <td>{{$attr->pivot->quantity}}</td>--}}
+                {{--                                                <td>{{$product->finalPrice($attr->pivot->price)}} $</td>--}}
+                {{--                                            </tr>--}}
+                {{--                                        @endforeach--}}
+                {{--                                        </tbody>--}}
+                {{--                                    </table>--}}
+                {{--                                </form>--}}
+                {{--                            </div>--}}
+                {{--                        </div>--}}
+                {{--                    </div>--}}
+                {{--                @endif--}}
                 <div class="row mt-5">
-                    <div class="col-12 col-sm-6"></div>
+                    <div class="col-12 col-sm-6 d-flex align-items-center justify-content-end gap-2">
+                        @auth
+                            @include('products.parts.wishlist', ['productId' => $product->id, 'isFollowed' => $wishListInfo['price'], 'type' => 'price'])
+                            @unless($product->in_stock)
+                                @include('products.parts.wishlist', ['productId' => $product->id, 'isFollowed' => $wishListInfo['in_stock'], 'type' => 'in_stock'])
+                            @endunless
+                        @endauth
+                    </div>
                     <div class="col-12 col-sm-6">
                         <div class="card">
                             <form method="POST" action="{{ route('cart.add', $product) }}"
                                   class="card-body d-flex align-items-center justify-content-between">
                                 @csrf
-{{--                                <input type="hidden" name="option" value="{{$selectedOption}}" />--}}
-                                <div class="card-title">Price: <strong class="fs-5">{{ $product->finalPrice }} $</strong></div>
+                                {{--                                <input type="hidden" name="option" value="{{$selectedOption}}" />--}}
+                                <div class="card-title">Price: <strong class="fs-5">{{ $product->finalPrice }}
+                                        $</strong></div>
                                 <button type="submit" class="btn btn-outline-success">Buy</button>
                             </form>
                         </div>

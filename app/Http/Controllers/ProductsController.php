@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Enums\WishListEnum;
 use App\Models\Category;
 use App\Models\Product;
 use App\Repositories\Contracts\ProductsRepositoryContract;
@@ -29,11 +30,21 @@ class ProductsController extends Controller
     {
         $product->load(['categories', 'images']);
 
+        $wishListInfo = [];
         $gallery = [
             $product->thumbnailUrl,
             ...$product->images->map(fn ($image) => $image->url)
         ];
 
-        return view('products.show', compact('product', 'gallery'));
+        if (auth()->check()) {
+            $user = auth()->user();
+
+            $wishListInfo = [
+                'in_stock' => $user->isWished($product->id, WishListEnum::InStock),
+                'price' => $user->isWished($product->id)
+            ];
+        }
+
+        return view('products.show', compact('product', 'gallery', 'wishListInfo'));
     }
 }
