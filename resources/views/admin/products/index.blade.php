@@ -5,7 +5,10 @@
         <div class="row">
             <div class="col-12 mb-3 d-flex align-items-center justify-content-between">
                 <h3>Products</h3>
-                <a class="btn btn-outline-primary" href="{{route('admin.products.create')}}">Create product</a>
+                <div class="d-flex align-items-center justify-content-between gap-2">
+                    <a class="btn btn-outline-warning" href="{{route('admin.products.export')}}">Export</a>
+                    <a class="btn btn-outline-primary" href="{{route('admin.products.create')}}">Create product</a>
+                </div>
             </div>
             <div class="col-12 table-responsive fs-5">
                 <table class="table table-dark table-striped">

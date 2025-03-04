@@ -30,7 +30,7 @@ class ProductFactory extends Factory
             'price' => fake()->randomFloat(2, 10, 200),
             'discount' => fake()->boolean() ? rand(10, 85) : null,
             'quantity' => rand(0, 50),
-            'thumbnail' => '',
+            'thumbnail' => $this->generateImage($slug),
         ];
     }
 

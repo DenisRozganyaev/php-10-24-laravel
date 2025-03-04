@@ -57,20 +57,38 @@ class Product extends Model implements Buyable
     public function thumbnailUrl(): Attribute
     {
         return Attribute::get(function () {
-            return Storage::url($this->attributes['thumbnail']);
+            $key = 'thumbnail_url_' . $this->attributes['id'];
+
+            if (cache()->has($key)) {
+                return cache()->get($key);
+            }
+
+            ds($this->attributes['thumbnail']);
+            $imageUrl = !Storage::exists($this->attributes['thumbnail'])
+                ? Storage::disk('public')->url($this->attributes['thumbnail'])
+                : Storage::temporaryUrl($this->attributes['thumbnail'], now()->addMinutes(10));
+
+            cache()->put($key, $imageUrl, now()->addMinutes(9));
+
+            return $imageUrl;
         });
     }
 
-    public function setThumbnailAttribute(UploadedFile $file): void
+    public function setThumbnailAttribute(UploadedFile|string $file): void
     {
-        if (!empty($this->attributes['thumbnail'])) {
-            Storage::delete($this->attributes['thumbnail']);
+        if (is_string($file)) {
+            $this->attributes['thumbnail'] = $file;
+        } else {
+
+            if (!empty($this->attributes['thumbnail'])) {
+                Storage::delete($this->attributes['thumbnail']);
+            }
+
+            $filePath = 'products/' . $this->attributes['slug'];
+
+            $this->attributes['thumbnail'] = app(FileServiceContract::class)
+                ->upload($file, $filePath);
         }
-
-        $filePath = 'products/' . $this->attributes['slug'];
-
-        $this->attributes['thumbnail'] = app(FileServiceContract::class)
-            ->upload($file, $filePath);
     }
 
     public function finalPrice(): Attribute

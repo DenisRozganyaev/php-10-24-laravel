@@ -6,9 +6,13 @@ use App\Enums\Permissions\ProductEnum;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\Products\CreateRequest;
 use App\Http\Requests\Admin\Products\EditRequest;
+use App\Jobs\Admin\Products\Export\SaveToS3Job;
+use App\Jobs\Admin\Products\Export\WriteLocalFile;
 use App\Models\Category;
 use App\Models\Product;
 use App\Repositories\Contracts\ProductsRepositoryContract;
+use Illuminate\Support\Facades\Bus;
+use Illuminate\Support\Facades\Storage;
 use Throwable;
 
 class ProductsController extends Controller
@@ -95,6 +99,32 @@ class ProductsController extends Controller
             logs()->error($th->getMessage());
             notify()->error("Oops! Something went wrong");
             return redirect()->back()->withInput();
+        }
+    }
+
+    public function export()
+    {
+        try {
+            $products = Product::select('id')->get()->pluck('id')->chunk(10);
+            Bus::chain([
+                fn () => Storage::disk('local')->makeDirectory('export'),
+                Bus::batch([
+                    ...$products->map(function ($chunk) {
+                        $fileName = "products-{$chunk->first()}.csv";
+                        return new WriteLocalFile($fileName, $chunk->toArray());
+                    })
+                ]),
+                new SaveToS3Job(),
+                fn () => Storage::disk('local')->deleteDirectory('export'),
+            ])->onQueue('products-export')
+                ->dispatch();
+
+            notify()->success("Export process was running");
+        } catch (Throwable $th) {
+            notify()->success("Export process was stopped");
+            logs()->error($th->getMessage());
+        } finally {
+            return back();
         }
     }
 }
