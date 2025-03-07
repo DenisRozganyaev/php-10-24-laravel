@@ -6,7 +6,7 @@
             <div class="col-12 mb-3 d-flex align-items-center justify-content-between">
                 <h3>Products</h3>
                 <div class="d-flex align-items-center justify-content-between gap-2">
-                    <a class="btn btn-outline-warning" href="{{route('admin.products.export')}}">Export</a>
+                    <button id="export-products" data-url="{{route('admin.products.export')}}" class="btn btn-outline-warning">Export</button>
                     <a class="btn btn-outline-primary" href="{{route('admin.products.create')}}">Create product</a>
                 </div>
             </div>
