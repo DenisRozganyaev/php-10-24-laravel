@@ -1,5 +1,13 @@
 import './bootstrap';
 
+import Cookies from 'js-cookie'
+
+const localeSelectors = {
+    wrapper: '.locale-dropdown',
+    title: '.local-dropdown_title',
+    button: '.locale-dropdown .dropdown-menu .dropdown-item'
+}
+
 $(document).ready(function () {
     $('#per_page')?.on('change', function (e) {
         $(this).parents('form')?.submit()
@@ -32,5 +40,17 @@ $(document).ready(function () {
                     position: 'topRight'
                 })
             })
+    })
+
+    $(localeSelectors.button).on('click', function(e) {
+        e.preventDefault()
+
+        // Cookies.set('locale', $(this).data('locale'))
+
+        axios.post('/ajax/locale', {
+            locale: $(this).data('locale')
+        }).then(() => {
+            window.location.reload()
+        })
     })
 })

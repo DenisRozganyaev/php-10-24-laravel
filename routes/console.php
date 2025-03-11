@@ -1,8 +1,11 @@
 <?php
 
+use App\Console\Commands\Orders\NewOrdersCommand;
 use Illuminate\Foundation\Inspiring;
 use Illuminate\Support\Facades\Artisan;
 
 Artisan::command('inspire', function () {
     $this->comment(Inspiring::quote());
 })->purpose('Display an inspiring quote')->hourly();
+
+\Illuminate\Support\Facades\Schedule::command(NewOrdersCommand::class)->weekly();
