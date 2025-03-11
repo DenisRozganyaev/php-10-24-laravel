@@ -2,10 +2,7 @@
 
 namespace App\Events\Admin\Export;
 
-use Illuminate\Broadcasting\Channel;
 use Illuminate\Broadcasting\InteractsWithBroadcasting;
-use Illuminate\Broadcasting\InteractsWithSockets;
-use Illuminate\Broadcasting\PresenceChannel;
 use Illuminate\Broadcasting\PrivateChannel;
 use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
 use Illuminate\Foundation\Events\Dispatchable;
@@ -18,9 +15,7 @@ class DownloadLink implements ShouldBroadcast
     /**
      * Create a new event instance.
      */
-    public function __construct(protected string $link)
-    {
-    }
+    public function __construct(protected string $link) {}
 
     /**
      * Get the channels the event should broadcast on.
@@ -43,7 +38,7 @@ class DownloadLink implements ShouldBroadcast
     {
         return [
             'message' => "Your CSV file is ready. Download it here: <a href='$this->link' class='link-dark'>Download</a>",
-            'type' => 'success'
+            'type' => 'success',
         ];
     }
 }

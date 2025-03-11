@@ -11,7 +11,6 @@ use LaravelDaily\Invoices\Invoice;
 
 class InvoiceService implements InvoiceServiceContract
 {
-
     public function generate(Order $order): Invoice
     {
         $order->loadMissing(['transaction', 'products']);
@@ -22,8 +21,8 @@ class InvoiceService implements InvoiceServiceContract
             'custom_fields' => [
                 'email' => $order->email,
                 'city' => $order->city,
-                'address' => $order->address
-            ]
+                'address' => $order->address,
+            ],
         ]);
 
         $invoice = Invoice::make()

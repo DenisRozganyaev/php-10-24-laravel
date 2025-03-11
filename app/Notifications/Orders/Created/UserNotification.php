@@ -34,7 +34,7 @@ class UserNotification extends Notification implements ShouldQueue
     public function viaQueues(): array
     {
         return [
-            'mail' => 'users-notifications'
+            'mail' => 'users-notifications',
         ];
     }
 
@@ -42,7 +42,7 @@ class UserNotification extends Notification implements ShouldQueue
     {
         return (new MailMessage)
             ->subject('Order was created')
-            ->greeting('Hello ' . $order->name . ' ' . $order->lastname)
+            ->greeting('Hello '.$order->name.' '.$order->lastname)
             ->action('Order info', url(route('order.thank-you', $order->vendor_order_id)))
             ->line('Thank you for using our store!')
             ->attachData(

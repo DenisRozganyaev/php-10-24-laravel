@@ -4,7 +4,6 @@ namespace App\Http\Controllers\Api\V1;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\Products\CreateRequest;
-use App\Http\Requests\Admin\Products\EditRequest;
 use App\Http\Requests\Api\v1\ProductEditRequest;
 use App\Http\Resources\v1\ProductResource;
 use App\Models\Product;
@@ -34,8 +33,8 @@ class ProductsController extends Controller
         return response()->json([
             'status' => 'error',
             'data' => [
-                'message' => 'Error message'
-            ]
+                'message' => 'Error message',
+            ],
         ], 400);
     }
 
@@ -50,14 +49,15 @@ class ProductsController extends Controller
     {
         if ($this->repository->update($product, $request)) {
             $product->refresh();
+
             return new ProductResource($product);
         }
 
         return response()->json([
             'status' => 'error',
             'data' => [
-                'message' => 'Error message'
-            ]
+                'message' => 'Error message',
+            ],
         ], 400);
     }
 

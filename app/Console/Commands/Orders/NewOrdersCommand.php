@@ -36,7 +36,6 @@ class NewOrdersCommand extends Command
             now()->subDays(30)->toDateTimeString()
         )->get();
 
-
         Notification::send(
             User::role(RoleEnum::ADMIN->value)->get(),
             app(

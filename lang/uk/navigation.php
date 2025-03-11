@@ -3,6 +3,6 @@
 return [
     'client' => [
         'products' => 'Продукти',
-        'categories' => 'Категорії'
-    ]
+        'categories' => 'Категорії',
+    ],
 ];

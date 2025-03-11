@@ -23,7 +23,7 @@ class ProductsControllerTest extends TestCase
         $title = 'Test Product';
         $slug = Str::slug($title);
 
-        $filePath =  "{$slug}/{$fileName}";
+        $filePath = "{$slug}/{$fileName}";
 
         $productData = [
             'title' => $title,

@@ -24,7 +24,6 @@ use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
 {
-
     public $bindings = [
         ProductsRepositoryContract::class => ProductRepository::class,
         ImagesRepositoryContract::class => ImagesRepository::class,

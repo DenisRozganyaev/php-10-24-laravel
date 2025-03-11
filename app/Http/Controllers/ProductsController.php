@@ -19,7 +19,6 @@ class ProductsController extends Controller
         $products = $repository->paginate($request);
         $categories = Cache::flexible('products_categories', [5, 3600], fn () => Category::whereHas('products')->get());
 
-
         return view('products.index', compact('products', 'per_page', 'categories', 'selectedCategory'));
     }
 
@@ -33,7 +32,7 @@ class ProductsController extends Controller
         $wishListInfo = [];
         $gallery = [
             $product->thumbnailUrl,
-            ...$product->images->map(fn ($image) => $image->url)
+            ...$product->images->map(fn ($image) => $image->url),
         ];
 
         if (auth()->check()) {
@@ -41,7 +40,7 @@ class ProductsController extends Controller
 
             $wishListInfo = [
                 'in_stock' => $user->isWished($product->id, WishListEnum::InStock),
-                'price' => $user->isWished($product->id)
+                'price' => $user->isWished($product->id),
             ];
         }
 

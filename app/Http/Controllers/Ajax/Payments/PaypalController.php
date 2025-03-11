@@ -8,7 +8,6 @@ use App\Http\Requests\CreateOrderRequest;
 use App\Repositories\OrderRepository;
 use App\Services\PaypalService;
 use Gloudemans\Shoppingcart\Facades\Cart;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Throwable;
 
@@ -41,7 +40,7 @@ class PaypalController extends Controller
         } catch (Throwable $exception) {
             DB::rollBack();
 
-            logs()->error('[PaypalController::create] ' . $exception->getMessage(), [
+            logs()->error('[PaypalController::create] '.$exception->getMessage(), [
                 'exception' => $exception,
                 'data' => $data,
             ]);
@@ -70,12 +69,12 @@ class PaypalController extends Controller
             DB::commit();
 
             return response()->json([
-                'orderId' => $vendorOrderId
+                'orderId' => $vendorOrderId,
             ]);
         } catch (Throwable $exception) {
             DB::rollBack();
 
-            logs()->error('[PaypalController::capture] ' . $exception->getMessage(), [
+            logs()->error('[PaypalController::capture] '.$exception->getMessage(), [
                 'exception' => $exception,
                 'vendor_order_id' => $vendorOrderId,
             ]);

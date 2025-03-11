@@ -3,7 +3,6 @@
 namespace App\Notifications;
 
 use Illuminate\Bus\Queueable;
-use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
@@ -23,7 +22,7 @@ class NewOrdersNotification extends Notification
     public function viaQueues(): array
     {
         return [
-            'mail' => 'admin-notification'
+            'mail' => 'admin-notification',
         ];
     }
 
@@ -43,10 +42,10 @@ class NewOrdersNotification extends Notification
     public function toMail(object $notifiable): MailMessage
     {
         $mail = (new MailMessage)
-                    ->subject('New orders:');
+            ->subject('New orders:');
 
-        foreach($this->orders as $order){
-            $mail->line('Order #'.$order->id.': '.$order->total . '$');
+        foreach ($this->orders as $order) {
+            $mail->line('Order #'.$order->id.': '.$order->total.'$');
         }
 
         return $mail;

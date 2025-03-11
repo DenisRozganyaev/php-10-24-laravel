@@ -15,7 +15,7 @@ use Spatie\Permission\Traits\HasRoles;
 class User extends Authenticatable
 {
     /** @use HasFactory<\Database\Factories\UserFactory> */
-    use HasFactory, Notifiable, HasRoles, HasApiTokens;
+    use HasApiTokens, HasFactory, HasRoles, Notifiable;
 
     /**
      * The attributes that are mass assignable.
@@ -74,11 +74,11 @@ class User extends Authenticatable
         $wished = $this->wishes()->find($productId);
 
         $data = [
-            $type->value => true
+            $type->value => true,
         ];
 
         if ($wished) {
-             $this->wishes()->updateExistingPivot($wished, $data);
+            $this->wishes()->updateExistingPivot($wished, $data);
         } else {
             $this->wishes()->attach($productId, $data);
         }

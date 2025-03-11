@@ -20,7 +20,7 @@ class AddToCartController extends Controller
 
             return response()->json([
                 'message' => 'Product added to cart',
-                'cart_count' => Cart::instance('cart')->countItems()
+                'cart_count' => Cart::instance('cart')->countItems(),
             ]);
         } catch (Throwable $th) {
             logs()->error("[AddToCartController] {$th->getMessage()}", [

@@ -19,7 +19,7 @@ use Illuminate\Support\Facades\Storage;
 #[ObservedBy([ProductObserver::class, WishListObserver::class])]
 class Product extends Model implements Buyable
 {
-    use HasFactory, CanBeBought;
+    use CanBeBought, HasFactory;
 
     protected $guarded = [];
 
@@ -57,14 +57,14 @@ class Product extends Model implements Buyable
     public function thumbnailUrl(): Attribute
     {
         return Attribute::get(function () {
-            $key = 'thumbnail_url_' . $this->attributes['id'];
+            $key = 'thumbnail_url_'.$this->attributes['id'];
 
             if (cache()->has($key)) {
                 return cache()->get($key);
             }
 
             ds($this->attributes['thumbnail']);
-            $imageUrl = !Storage::exists($this->attributes['thumbnail'])
+            $imageUrl = ! Storage::exists($this->attributes['thumbnail'])
                 ? Storage::disk('public')->url($this->attributes['thumbnail'])
                 : Storage::temporaryUrl($this->attributes['thumbnail'], now()->addMinutes(10));
 
@@ -80,11 +80,11 @@ class Product extends Model implements Buyable
             $this->attributes['thumbnail'] = $file;
         } else {
 
-            if (!empty($this->attributes['thumbnail'])) {
+            if (! empty($this->attributes['thumbnail'])) {
                 Storage::delete($this->attributes['thumbnail']);
             }
 
-            $filePath = 'products/' . $this->attributes['slug'];
+            $filePath = 'products/'.$this->attributes['slug'];
 
             $this->attributes['thumbnail'] = app(FileServiceContract::class)
                 ->upload($file, $filePath);

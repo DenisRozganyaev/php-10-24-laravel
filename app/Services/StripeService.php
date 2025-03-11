@@ -2,7 +2,6 @@
 
 namespace App\Services;
 
-use App\Services\Contracts\StripeServiceContract;
 use Gloudemans\Shoppingcart\Facades\Cart;
 
 class StripeService implements Contracts\StripeServiceContract
@@ -20,7 +19,7 @@ class StripeService implements Contracts\StripeServiceContract
             'metadata' => [
                 ...$data,
                 'user_id' => auth()?->id(),
-            ]
+            ],
         ]);
 
         return [

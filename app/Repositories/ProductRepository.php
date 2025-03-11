@@ -18,9 +18,7 @@ class ProductRepository implements Contracts\ProductsRepositoryContract
 {
     const PER_PAGE = 10;
 
-    public function __construct(protected ImagesRepositoryContract $imagesRepository)
-    {
-    }
+    public function __construct(protected ImagesRepositoryContract $imagesRepository) {}
 
     public function store(CreateRequest $request): Product|false
     {
@@ -37,9 +35,9 @@ class ProductRepository implements Contracts\ProductsRepositoryContract
             return $product;
         } catch (Throwable $th) {
             DB::rollBack();
-            logs()->error('[ProductRepository::store] ' . $th->getMessage(), [
+            logs()->error('[ProductRepository::store] '.$th->getMessage(), [
                 'exception' => $th,
-                'request' => $request->all()
+                'request' => $request->all(),
             ]);
 
             return false;
@@ -61,9 +59,9 @@ class ProductRepository implements Contracts\ProductsRepositoryContract
             return true;
         } catch (Throwable $th) {
             DB::rollBack();
-            logs()->error('[ProductRepository::update] ' . $th->getMessage(), [
+            logs()->error('[ProductRepository::update] '.$th->getMessage(), [
                 'exception' => $th,
-                'request' => $request->all()
+                'request' => $request->all(),
             ]);
 
             return false;
@@ -110,11 +108,11 @@ class ProductRepository implements Contracts\ProductsRepositoryContract
                 }
             );
 
-        if (!$withCache) {
+        if (! $withCache) {
             return $products->paginate($per_page);
         }
 
-        return Cache::flexible("products_index_{$per_page}_{$category}", [5, 600], function() use ($products, $per_page) {
+        return Cache::flexible("products_index_{$per_page}_{$category}", [5, 600], function () use ($products, $per_page) {
             return $products->paginate($per_page);
         });
     }

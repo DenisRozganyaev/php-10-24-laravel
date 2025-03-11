@@ -4,7 +4,6 @@ namespace App\Http\Controllers\Pages;
 
 use App\Http\Controllers\Controller;
 use App\Models\Order;
-use Illuminate\Http\Request;
 use Throwable;
 
 class ThankYouController extends Controller
@@ -15,11 +14,11 @@ class ThankYouController extends Controller
             $order = Order::with(['transaction', 'products'])
                 ->where('vendor_order_id', $vendorOrderId)
                 ->firstOrFail();
-            $showInvoiceBtn = !!$order->user_id;
+            $showInvoiceBtn = (bool) $order->user_id;
 
             return view('orders/thank-you', compact('order', 'showInvoiceBtn'));
         } catch (Throwable $throwable) {
-            logs()->error("[ThankYouController] " . $throwable->getMessage(), [
+            logs()->error('[ThankYouController] '.$throwable->getMessage(), [
                 'exception' => $throwable,
                 'vendorOrderId' => $vendorOrderId,
             ]);

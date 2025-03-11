@@ -8,7 +8,6 @@ use App\Models\User;
 use App\Notifications\Orders\Created\AdminNotification;
 use App\Notifications\Orders\Created\UserNotification;
 use Illuminate\Contracts\Queue\ShouldQueue;
-use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Support\Facades\Notification;
 
 class NewOrderListener implements ShouldQueue

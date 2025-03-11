@@ -9,6 +9,6 @@ class RestoreOnLoginListener
 {
     public function handle(Login $event): void
     {
-        Cart::instance('cart')->restore('cart_' . $event->user->id);
+        Cart::instance('cart')->restore('cart_'.$event->user->id);
     }
 }

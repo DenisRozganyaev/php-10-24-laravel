@@ -25,13 +25,13 @@ abstract class BaseJob implements ShouldQueue
         $this->product
             ->followers()
             ->wherePivot($type->value, true)
-            ->chunk( # 300 => each all 300 => chunk [100, 100, 100]
+            ->chunk( // 300 => each all 300 => chunk [100, 100, 100]
                 100,
                 fn (Collection $users) => Notification::send(
                     $users,
                     app($notificationClass, [
                         'product' => $this->product,
-                        'data' => $this->data
+                        'data' => $this->data,
                     ])
                 )
             );
