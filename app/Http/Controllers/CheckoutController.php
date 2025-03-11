@@ -14,7 +14,7 @@ class CheckoutController extends Controller
         //        $cart->content()->each(function ($item) use (&$taxSum) {
         //            dump($item->tax());
         //        });
-        ////        dd($cart->content(), $cart->total(), $cart->tax(), $cart->subtotal());
+        // //        dd($cart->content(), $cart->total(), $cart->tax(), $cart->subtotal());
 
         return view('checkout/index', compact('cart', 'user'));
     }

@@ -27,7 +27,7 @@ class UserCreateRequest extends FormRequest
             'lastname' => ['required', 'string', 'max:50'],
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
             'password' => ['required', 'string', 'min:8', 'confirmed'],
-            'phone' => ['required', 'string', 'min:10', 'max:15'], //, new PhoneNumber],
+            'phone' => ['required', 'string', 'min:10', 'max:15'], // , new PhoneNumber],
             'birthday' => ['nullable', 'date', 'before_or_equal:-18 years'],
         ];
     }
