@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Ajax\AddToCartController;
+use App\Http\Controllers\Ajax\Payments\PaypalController;
 use App\Http\Controllers\Ajax\RemoveImageController;
 use App\Http\Controllers\CartController;
 use App\Http\Controllers\CheckoutController;
@@ -37,5 +38,10 @@ Route::prefix('ajax')->name('ajax.')->group(function () {
 
     Route::middleware(['auth', 'role:admin|moderator'])->group(function () {
         Route::delete('images/{image}', RemoveImageController::class)->name('images.remove');
+    });
+
+    Route::prefix('paypal')->name('paypal.')->group(function () {
+       Route::post('order', [PayPalController::class, 'create'])->name('order.create');
+       Route::post('order/{vendorOrderId}/capture', [PayPalController::class, 'capture'])->name('order.capture');
     });
 });

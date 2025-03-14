@@ -150,7 +150,7 @@
                             </tbody>
                         </table>
                         <br>
-{{--                        @include('payments.paypal')--}}
+                        @include('payments.paypal')
                     </div>
                 </div>
             </div>
