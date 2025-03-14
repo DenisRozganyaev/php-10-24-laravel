@@ -2,6 +2,8 @@
 
 namespace App\Models;
 
+use App\Observers\ProductObserver;
+use Illuminate\Database\Eloquent\Attributes\ObservedBy;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -12,6 +14,7 @@ use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 
+#[ObservedBy([ProductObserver::class])]
 class Product extends Model
 {
     use HasFactory;
@@ -36,17 +39,19 @@ class Product extends Model
         });
     }
 
-    public function thumbnail(): Attribute
+    public function setThumbnailAttribute(UploadedFile $file): void
     {
-        return Attribute::set(function (UploadedFile $file) {
-            $fileName = Str::slug(microtime());
-            $filePath = 'products/' . $this->attributes['slug'] . "/$fileName" . $file->getClientOriginalName();
+        if (!empty($this->attributes['thumbnail'])) {
+            Storage::delete($this->attributes['thumbnail']);
+        }
 
-            Storage::put($filePath, File::get($file));
-            Storage::setVisibility($filePath, 'public');
+        $fileName = Str::slug(microtime());
+        $filePath = 'products/' . $this->attributes['slug'] . "/$fileName" . $file->getClientOriginalName();
 
-            return $filePath;
-        });
+        Storage::put($filePath, File::get($file));
+        Storage::setVisibility($filePath, 'public');
+
+        $this->attributes['thumbnail'] = $filePath;
     }
 
     public function imagesFolderPath(): string

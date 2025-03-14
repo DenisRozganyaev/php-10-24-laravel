@@ -176,6 +176,6 @@
     </div>
 @endsection
 
-{{--@push('footer-js')--}}
-{{--    @vite(['resources/js/admin/products-preview.js'])--}}
-{{--@endpush--}}
+@push('footer-js')
+    @vite(['resources/js/admin/products.js'])
+@endpush
