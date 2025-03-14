@@ -150,6 +150,10 @@
                             </tbody>
                         </table>
                         <br>
+                        @auth
+                            @include('payments.stripe')
+                            <br>
+                        @endauth
                         @include('payments.paypal')
                     </div>
                 </div>

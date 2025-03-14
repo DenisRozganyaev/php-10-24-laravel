@@ -11,9 +11,11 @@ use App\Repositories\ProductRepository;
 use App\Services\Contracts\FileServiceContract;
 use App\Services\Contracts\InvoiceServiceContract;
 use App\Services\Contracts\PaypalServiceContract;
+use App\Services\Contracts\StripeServiceContract;
 use App\Services\FileService;
 use App\Services\InvoiceService;
 use App\Services\PaypalService;
+use App\Services\StripeService;
 use Illuminate\Pagination\Paginator;
 use Illuminate\Support\ServiceProvider;
 
@@ -27,6 +29,7 @@ class AppServiceProvider extends ServiceProvider
         OrderRepositoryContract::class => OrderRepository::class,
         PaypalServiceContract::class => PaypalService::class,
         InvoiceServiceContract::class => InvoiceService::class,
+        StripeServiceContract::class => StripeService::class,
     ];
 
     /**
