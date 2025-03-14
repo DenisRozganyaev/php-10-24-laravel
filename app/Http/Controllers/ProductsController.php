@@ -15,7 +15,7 @@ class ProductsController extends Controller
         $per_page = $request->get('per_page', $repository::PER_PAGE);
         $selectedCategory = $request->get('category');
 
-        $products = Cache::flexible("products_index_{$per_page}_{$selectedCategory}", [5, 600], fn () => $repository->paginate($request));
+        $products = $repository->paginate($request);
         $categories = Cache::flexible('products_categories', [5, 3600], fn () => Category::whereHas('products')->get());
 
 
