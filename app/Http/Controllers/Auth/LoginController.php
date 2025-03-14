@@ -25,7 +25,7 @@ class LoginController extends Controller
      * TODO: change a way to redirect admins or other users
      * @var string
      */
-    protected $redirectTo = '/home';
+    protected $redirectTo = '/';
 
     /**
      * Create a new controller instance.

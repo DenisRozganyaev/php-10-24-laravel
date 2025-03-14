@@ -4,6 +4,8 @@ namespace App\Models;
 
 use App\Observers\ProductObserver;
 use App\Services\Contracts\FileServiceContract;
+use Gloudemans\Shoppingcart\CanBeBought;
+use Gloudemans\Shoppingcart\Contracts\Buyable;
 use Illuminate\Database\Eloquent\Attributes\ObservedBy;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -16,9 +18,9 @@ use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 
 #[ObservedBy([ProductObserver::class])]
-class Product extends Model
+class Product extends Model implements Buyable
 {
-    use HasFactory;
+    use HasFactory, CanBeBought;
 
     protected $guarded = [];
 
@@ -53,20 +55,22 @@ class Product extends Model
 
         $filePath = 'products/' . $this->attributes['slug'];
 
-//        Storage::put($filePath, File::get($file));
-//        Storage::setVisibility($filePath, 'public');
-
         $this->attributes['thumbnail'] = app(FileServiceContract::class)
             ->upload($file, $filePath);
     }
 
     public function finalPrice(): Attribute
     {
-        return Attribute::get(fn () => $this->attributes['price'] - ($this->attributes['discount'] / 100));
+        return Attribute::get(fn () => round($this->attributes['price'] - ($this->attributes['price'] * $this->attributes['discount'] / 100), 2));
     }
 
     public function imagesFolderPath(): string
     {
         return "products/$this->slug/";
+    }
+
+    public function getBuyablePrice($options = null)
+    {
+        return $this->finalPrice;
     }
 }
