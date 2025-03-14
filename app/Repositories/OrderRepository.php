@@ -11,7 +11,6 @@ use Gloudemans\Shoppingcart\Facades\Cart;
 
 class OrderRepository implements Contracts\OrderRepositoryContract
 {
-
     public function create(array $data): Order|false
     {
         $data = [
@@ -39,11 +38,11 @@ class OrderRepository implements Contracts\OrderRepositoryContract
         ]);
 
         $order->updateOrFail([
-            'status' => match($status) {
+            'status' => match ($status) {
                 TransactionStatusesEnum::Success => OrderStatusEnum::Paid,
                 TransactionStatusesEnum::Cancelled => OrderStatusEnum::Cancelled,
                 default => OrderStatusEnum::InProcess,
-            }
+            },
         ]);
     }
 

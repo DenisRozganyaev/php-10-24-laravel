@@ -27,14 +27,13 @@ class Image extends Model
     public function url(): Attribute
     {
         return Attribute::get(function () {
-            $key = 'images_' . $this->attributes['id'];
+            $key = 'images_'.$this->attributes['id'];
 
             if (cache()->has($key)) {
                 return cache()->get($key);
             }
 
-
-            $imageUrl = !Storage::exists($this->attributes['path'])
+            $imageUrl = ! Storage::exists($this->attributes['path'])
                 ? Storage::disk('public')->url($this->attributes['path'])
                 : Storage::temporaryUrl($this->attributes['path'], now()->addMinutes(10));
 
@@ -51,7 +50,7 @@ class Image extends Model
          */
         $file = $pathData['image'];
         $fileName = Str::slug(microtime());
-        $filePath = $pathData['path'] . $fileName . $file->getClientOriginalName();
+        $filePath = $pathData['path'].$fileName.$file->getClientOriginalName();
 
         Storage::put($filePath, File::get($file));
         Storage::setVisibility($filePath, 'public');

@@ -23,8 +23,8 @@ class OrderPolicy
      */
     public function view(User $user, Order $order): bool
     {
-//        return $user->hasAnyRole([RoleEnum::ADMIN->value, RoleEnum::MODERATOR->value]) ||
-            return $order->user_id === $user->id;
+        //        return $user->hasAnyRole([RoleEnum::ADMIN->value, RoleEnum::MODERATOR->value]) ||
+        return $order->user_id === $user->id;
     }
 
     /**

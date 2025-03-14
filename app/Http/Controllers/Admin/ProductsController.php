@@ -52,7 +52,7 @@ class ProductsController extends Controller
 
             return redirect()->route('admin.products.index');
         }
-        notify()->error("Oops! Something went wrong");
+        notify()->error('Oops! Something went wrong');
 
         return redirect()->back()->withInput();
     }
@@ -80,7 +80,7 @@ class ProductsController extends Controller
 
             return redirect()->route('admin.products.edit', $product);
         }
-        notify()->error("Oops! Something went wrong");
+        notify()->error('Oops! Something went wrong');
 
         return redirect()->back()->withInput();
     }
@@ -91,7 +91,7 @@ class ProductsController extends Controller
     public function destroy(Product $product)
     {
         try {
-            $this->middleware('permission:' . ProductEnum::DELETE->value);
+            $this->middleware('permission:'.ProductEnum::DELETE->value);
 
             $product->deleteOrFail();
 
@@ -100,7 +100,8 @@ class ProductsController extends Controller
             return redirect()->route('admin.categories.index');
         } catch (Throwable $th) {
             logs()->error($th->getMessage());
-            notify()->error("Oops! Something went wrong");
+            notify()->error('Oops! Something went wrong');
+
             return redirect()->back()->withInput();
         }
     }
@@ -111,27 +112,29 @@ class ProductsController extends Controller
             $userId = auth()->id();
             $products = Product::select('id')->get()->pluck('id')->chunk(10);
             Bus::chain([
-                fn() => ExportBegin::dispatch(),
-                fn() => Storage::disk('local')->makeDirectory('export'),
+                fn () => ExportBegin::dispatch(),
+                fn () => Storage::disk('local')->makeDirectory('export'),
                 Bus::batch([
                     ...$products->map(function ($chunk) {
                         $fileName = "products-{$chunk->first()}.csv";
+
                         return new WriteLocalFile($fileName, $chunk->toArray());
-                    })
+                    }),
                 ]),
                 new SaveToS3Job($userId),
-                fn() => Storage::disk('local')->deleteDirectory('export'),
-                fn() => DownloadLink::dispatch(
+                fn () => Storage::disk('local')->deleteDirectory('export'),
+                fn () => DownloadLink::dispatch(
                     Storage::temporaryUrl(
                         "export/combined_$userId.csv",
                         now()->addMinutes(10)
                     )
                 ),
-            ])->catch(fn() => FailedExport::dispatch())
+            ])->catch(fn () => FailedExport::dispatch())
                 ->onQueue('products-export')
                 ->dispatch();
         } catch (Throwable $th) {
             logs()->error($th->getMessage());
+
             return response()->json([
                 'message' => $th->getMessage(),
             ]);

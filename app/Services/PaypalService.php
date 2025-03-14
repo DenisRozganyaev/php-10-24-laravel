@@ -24,7 +24,7 @@ class PaypalService implements Contracts\PaypalServiceContract
         );
 
         logs()->info('[PaypalService::create] Getting paypal order', [
-            'response' => $paypalOrder
+            'response' => $paypalOrder,
         ]);
 
         return $paypalOrder['id'] ?? null;
@@ -62,7 +62,7 @@ class PaypalService implements Contracts\PaypalServiceContract
                     'tax' => [
                         'currency_code' => $currencyCode,
                         'value' => $item->tax(),
-                    ]
+                    ],
                 ];
             });
 
@@ -81,12 +81,12 @@ class PaypalService implements Contracts\PaypalServiceContract
                             'tax_total' => [
                                 'currency_code' => $currencyCode,
                                 'value' => $cart->tax(),
-                            ]
-                        ]
+                            ],
+                        ],
                     ],
-                    'items' => $items
-                ]
-            ]
+                    'items' => $items,
+                ],
+            ],
         ];
     }
 }

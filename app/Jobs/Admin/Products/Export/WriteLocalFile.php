@@ -34,7 +34,7 @@ class WriteLocalFile implements ShouldQueue
 
         try {
             $fileName = "export/{$this->fileName}";
-            if (!Storage::disk('local')->exists($fileName)) {
+            if (! Storage::disk('local')->exists($fileName)) {
                 Storage::disk('local')->put($fileName, '');
             }
 

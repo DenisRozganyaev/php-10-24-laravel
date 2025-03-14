@@ -12,7 +12,7 @@ class CategoriesControllerTest extends TestCase
 {
     use SetupTrait;
 
-    static public function indexSuccessProvider(): array
+    public static function indexSuccessProvider(): array
     {
         return [
             'admin role' => [
@@ -21,11 +21,11 @@ class CategoriesControllerTest extends TestCase
             ],
             'moderator role' => [
                 'role' => RoleEnum::MODERATOR,
-                'categoriesQty' => 3
+                'categoriesQty' => 3,
             ],
             '10 categories' => [
                 'role' => RoleEnum::MODERATOR,
-                'categoriesQty' => 10
+                'categoriesQty' => 10,
             ],
         ];
     }
@@ -73,7 +73,7 @@ class CategoriesControllerTest extends TestCase
     {
         $parent = Category::factory()->createOne();
         $category = Category::factory()->makeOne([
-            'parent_id' => $parent->id
+            'parent_id' => $parent->id,
         ])->toArray();
 
         $this->assertDatabaseMissing('categories', $category);

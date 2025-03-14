@@ -13,6 +13,7 @@ class InvoiceController extends Controller
 
         if (auth()->user()->cannot('view', $order)) {
             notify()->warning('You do not have permission to view this invoice.');
+
             return redirect()->route('home');
         }
 

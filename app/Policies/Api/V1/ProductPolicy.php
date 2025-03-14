@@ -5,7 +5,6 @@ namespace App\Policies\Api\V1;
 use App\Enums\RoleEnum;
 use App\Models\Product;
 use App\Models\User;
-use Illuminate\Auth\Access\Response;
 
 class ProductPolicy
 {

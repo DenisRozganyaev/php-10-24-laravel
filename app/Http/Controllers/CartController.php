@@ -39,18 +39,20 @@ class CartController extends Controller
 
         Cart::instance('cart')->update($data['rowId'], $data['qty']);
         notify()->success('Product updated');
+
         return back();
     }
 
     public function remove(Request $request)
     {
         $data = $request->validate([
-            'rowId' => ['required', 'string']
+            'rowId' => ['required', 'string'],
         ]);
 
         Cart::instance('cart')->remove($data['rowId']);
 
         notify()->success('Product removed');
+
         return redirect()->route('cart.index');
     }
 }

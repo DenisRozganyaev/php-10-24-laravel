@@ -7,4 +7,3 @@ Broadcast::channel('App.Models.User.{id}', function ($user, $id) {
 });
 
 Broadcast::channel('admin-channel', \App\Broadcasting\AdminChannel::class);
-

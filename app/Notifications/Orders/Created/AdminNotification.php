@@ -24,7 +24,7 @@ class AdminNotification extends Notification implements ShouldQueue
     public function viaQueues(): array
     {
         return [
-            'mail' => 'admin-notification'
+            'mail' => 'admin-notification',
         ];
     }
 
@@ -36,9 +36,9 @@ class AdminNotification extends Notification implements ShouldQueue
     public function toMail(User $user): MailMessage
     {
         return (new MailMessage)
-            ->subject('New Order #' . $this->order->id)
+            ->subject('New Order #'.$this->order->id)
             ->line("Hey $user->name,")
-            ->line("There is a new order here")
+            ->line('There is a new order here')
             ->action(
                 'Open the order invoice',
                 url(route('order.invoice', $this->order->vendor_order_id))

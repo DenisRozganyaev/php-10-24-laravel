@@ -24,7 +24,7 @@ class AuthController extends Controller
                 'status' => 'error',
                 'data' => [
                     'message' => 'The provided credentials are incorrect.',
-                ]
+                ],
             ], 422);
         }
 
@@ -38,7 +38,7 @@ class AuthController extends Controller
             'status' => 'success',
             'data' => [
                 'token' => $token->plainTextToken,
-            ]
+            ],
         ]);
     }
 }

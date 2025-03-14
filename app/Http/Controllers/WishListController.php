@@ -21,7 +21,7 @@ class WishListController extends Controller
 
             return back();
         } catch (Throwable $throwable) {
-            logs()->error("[WishListController] " . $throwable->getMessage(), [
+            logs()->error('[WishListController] '.$throwable->getMessage(), [
                 'exception' => $throwable,
                 'productId' => $productId,
                 'request' => $data,
@@ -45,7 +45,7 @@ class WishListController extends Controller
 
             return back();
         } catch (Throwable $throwable) {
-            logs()->error("[WishListController] " . $throwable->getMessage(), [
+            logs()->error('[WishListController] '.$throwable->getMessage(), [
                 'exception' => $throwable,
                 'productId' => $productId,
                 'request' => $data,

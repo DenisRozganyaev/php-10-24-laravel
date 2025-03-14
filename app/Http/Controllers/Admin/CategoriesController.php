@@ -41,7 +41,7 @@ class CategoriesController extends Controller
     {
         $category = Category::create([
             ...$request->validated(),
-            'slug' => Str::slug($request->get('name'))
+            'slug' => Str::slug($request->get('name')),
         ]);
 
         notify()->success("Category '$category->name' is created");
@@ -68,7 +68,7 @@ class CategoriesController extends Controller
     {
         $data = [
             ...$request->validated(),
-            'slug' => Str::slug($request->get('name'))
+            'slug' => Str::slug($request->get('name')),
         ];
 
         $category->updateOrFail($data);
@@ -83,7 +83,7 @@ class CategoriesController extends Controller
      */
     public function destroy(Category $category)
     {
-        $this->middleware('permission:' . CategoryEnum::DELETE->value);
+        $this->middleware('permission:'.CategoryEnum::DELETE->value);
 
         $category->deleteOrFail();
 
