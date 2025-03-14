@@ -15,5 +15,6 @@ class ProductObserver
     {
         Storage::delete($product->getAttribute('thumbnail'));
         $product->images()->each(fn (Image $image) => $image->delete());
+        Storage::deleteDirectory($product->imagesFolderPath());
     }
 }

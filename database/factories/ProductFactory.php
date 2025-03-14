@@ -2,6 +2,7 @@
 
 namespace Database\Factories;
 
+use App\Models\Category;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
@@ -29,8 +30,23 @@ class ProductFactory extends Factory
             'price' => fake()->randomFloat(2, 10, 200),
             'discount' => fake()->boolean() ? rand(10, 85) : null,
             'quantity' => rand(0, 50),
-            'thumbnail' => $this->generateImage($slug)
+            'thumbnail' => '',
         ];
+    }
+
+    public function withTitle(string $title): static
+    {
+        return $this->state(fn (array $attributes) => [
+            'title' => $title,
+            'slug' => Str::slug($title),
+        ]);
+    }
+
+    public function withThumbnail(): static
+    {
+        return $this->state(fn (array $attributes) => [
+            'thumbnail' => $this->generateImage($attributes['slug']),
+        ]);
     }
 
     protected function generateImage(string $slug): string
