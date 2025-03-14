@@ -37,6 +37,13 @@ Route::name('cart.')->prefix('cart')->group(function () {
 
 Route::middleware(['auth'])->group(function () {
     Route::get('orders/{vendor_order_id}/invoice', InvoiceController::class)->name('order.invoice');
+
+    Route::prefix('products')->name('products.')->group(function () {
+        Route::post('{product}/wishlist', [\App\Http\Controllers\WishListController::class, 'add'])
+            ->name('wishlist.add');
+        Route::delete('{product}/wishlist', [\App\Http\Controllers\WishListController::class, 'remove'])
+            ->name('wishlist.remove');
+    });
 });
 
 Route::prefix('admin')->name('admin.')->middleware(['auth', 'role:admin|moderator'])->group(function () {
@@ -60,4 +67,8 @@ Route::prefix('ajax')->name('ajax.')->group(function () {
     });
 
     Route::post('stripe/order', [StripeController::class, 'create'])->name('stripe.order.create');
+});
+
+Route::prefix('account')->name('account.')->middleware(['auth'])->group(function () {
+    Route::get('wishlist', \App\Http\Controllers\Account\WishListController::class)->name('wishlist');
 });

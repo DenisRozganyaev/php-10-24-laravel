@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Observers\ProductObserver;
+use App\Observers\WishListObserver;
 use App\Services\Contracts\FileServiceContract;
 use Gloudemans\Shoppingcart\CanBeBought;
 use Gloudemans\Shoppingcart\Contracts\Buyable;
@@ -15,7 +16,7 @@ use Illuminate\Database\Eloquent\Relations\MorphMany;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Storage;
 
-#[ObservedBy([ProductObserver::class])]
+#[ObservedBy([ProductObserver::class, WishListObserver::class])]
 class Product extends Model implements Buyable
 {
     use HasFactory, CanBeBought;
@@ -40,6 +41,16 @@ class Product extends Model implements Buyable
     public function orders(): BelongsToMany
     {
         return $this->belongsToMany(Order::class);
+    }
+
+    public function followers(): BelongsToMany
+    {
+        return $this->belongsToMany(User::class, 'wish_list', 'product_id', 'user_id');
+    }
+
+    public function inStock(): Attribute
+    {
+        return Attribute::get(fn () => $this->attributes['quantity'] > 0);
     }
 
     // $product->thumbnailUrl

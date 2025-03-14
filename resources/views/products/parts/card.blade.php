@@ -1,5 +1,5 @@
 <div class="col">
-    <div class="card shadow-sm product-card" style="width: 18rem; position: relative">
+    <div class="card shadow-sm product-card @unless($product->in_stock) opacity-50 @endunless" style="width: 18rem; position: relative">
         <img src="{{ $product->thumbnailUrl }}" class="card-img-top w-100 product-card-image"
              alt="{{ $product->title }}">
         <div class="card-body">
