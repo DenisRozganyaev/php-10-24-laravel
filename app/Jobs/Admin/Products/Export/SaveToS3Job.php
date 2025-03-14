@@ -16,7 +16,7 @@ class SaveToS3Job implements ShouldQueue
     /**
      * Create a new job instance.
      */
-    public function __construct()
+    public function __construct(public int $userId)
     {
         $this->onQueue('products-export');
     }
@@ -27,7 +27,7 @@ class SaveToS3Job implements ShouldQueue
     public function handle(): void
     {
         try {
-            Storage::delete('export/combined.csv');
+            Storage::delete("export/combined_$this->userId.csv");
             $files = Storage::disk('local')->allFiles('export');
 
             $csv = Writer::createFromString('');
@@ -54,7 +54,7 @@ class SaveToS3Job implements ShouldQueue
                 Storage::disk('local')->delete($file);
             }
 
-            Storage::put('export/combined.csv', $csv->toString());
+            Storage::put("export/combined_$this->userId.csv", $csv->toString());
         } catch (Throwable $th) {
             logs()->error("[ProductsExportJob] error: {$th->getMessage()}");
         }

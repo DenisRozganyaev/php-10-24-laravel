@@ -9,13 +9,23 @@ use App\Http\Controllers\CartController;
 use App\Http\Controllers\CheckoutController;
 use App\Http\Controllers\InvoiceController;
 use App\Models\Order;
+use App\Models\Product;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Support\Facades\Route;
 
 Route::get('test', function () {
-    logs()->info('route test');
-
-    $order = Order::take(1)->first();
-    \App\Events\OrderCreatedEvent::dispatch($order);
+    Product::query()
+        ->with(['images', 'categories'])
+        ->whereIn('id', [1, 2, 3, 4, 5])
+        ->chunk(10, function (Collection $products) {
+            $products = $products->map(function (Product $product) {
+                return [
+                    ...$product->toArray(),
+                    'categories' => $product->categories->pluck('name')->implode(', '),
+                    'images' => $product->images->pluck('url')->implode(', '),
+                ];
+            });
+        });
 });
 Route::get('/', \App\Http\Controllers\HomeController::class)->name('home');
 
@@ -63,8 +73,8 @@ Route::prefix('ajax')->name('ajax.')->group(function () {
     });
 
     Route::prefix('paypal')->name('paypal.')->group(function () {
-       Route::post('order', [PayPalController::class, 'create'])->name('order.create');
-       Route::post('order/{vendorOrderId}/capture', [PayPalController::class, 'capture'])->name('order.capture');
+        Route::post('order', [PayPalController::class, 'create'])->name('order.create');
+        Route::post('order/{vendorOrderId}/capture', [PayPalController::class, 'capture'])->name('order.capture');
     });
 
     Route::post('stripe/order', [StripeController::class, 'create'])->name('stripe.order.create');

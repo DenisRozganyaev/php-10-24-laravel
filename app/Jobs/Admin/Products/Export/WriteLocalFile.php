@@ -32,7 +32,6 @@ class WriteLocalFile implements ShouldQueue
             return;
         }
 
-        logs()->info("[ProductsExportJob] dispatch!");
         try {
             $fileName = "export/{$this->fileName}";
             if (!Storage::disk('local')->exists($fileName)) {
@@ -50,7 +49,14 @@ class WriteLocalFile implements ShouldQueue
                 ->with(['images', 'categories'])
                 ->whereIn('id', $this->productsIds)
                 ->chunk(10, function (Collection $products) use ($csv) {
-                    $csv->insertAll($products->toArray());
+                    $result = $products->map(function (Product $product) {
+                        return [
+                            ...$product->toArray(),
+                            'categories' => $product->categories->pluck('name')->implode(', '),
+                            'images' => $product->images->pluck('url')->implode(', '),
+                        ];
+                    });
+                    $csv->insertAll($result->toArray());
                 });
         } catch (Throwable $th) {
             logs()->error("[WriteLocalFile] error: {$th->getMessage()}");

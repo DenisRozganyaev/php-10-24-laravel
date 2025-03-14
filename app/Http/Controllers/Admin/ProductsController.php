@@ -3,6 +3,9 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Enums\Permissions\ProductEnum;
+use App\Events\Admin\Export\DownloadLink;
+use App\Events\Admin\Export\ExportBegin;
+use App\Events\Admin\Export\FailedExport;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\Products\CreateRequest;
 use App\Http\Requests\Admin\Products\EditRequest;
@@ -105,26 +108,35 @@ class ProductsController extends Controller
     public function export()
     {
         try {
+            $userId = auth()->id();
             $products = Product::select('id')->get()->pluck('id')->chunk(10);
             Bus::chain([
-                fn () => Storage::disk('local')->makeDirectory('export'),
+                fn() => ExportBegin::dispatch(),
+                fn() => Storage::disk('local')->makeDirectory('export'),
                 Bus::batch([
                     ...$products->map(function ($chunk) {
                         $fileName = "products-{$chunk->first()}.csv";
                         return new WriteLocalFile($fileName, $chunk->toArray());
                     })
                 ]),
-                new SaveToS3Job(),
-                fn () => Storage::disk('local')->deleteDirectory('export'),
-            ])->onQueue('products-export')
+                new SaveToS3Job($userId),
+                fn() => Storage::disk('local')->deleteDirectory('export'),
+                fn() => DownloadLink::dispatch(
+                    Storage::temporaryUrl(
+                        "export/combined_$userId.csv",
+                        now()->addMinutes(10)
+                    )
+                ),
+            ])->catch(fn() => FailedExport::dispatch())
+                ->onQueue('products-export')
                 ->dispatch();
-
-            notify()->success("Export process was running");
         } catch (Throwable $th) {
-            notify()->success("Export process was stopped");
             logs()->error($th->getMessage());
+            return response()->json([
+                'message' => $th->getMessage(),
+            ]);
         } finally {
-            return back();
+            return response()->json([], 204);
         }
     }
 }
