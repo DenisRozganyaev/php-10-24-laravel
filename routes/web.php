@@ -52,6 +52,7 @@ Route::prefix('admin')->name('admin.')->middleware(['auth', 'role:admin|moderato
         ->except(['show']);
     Route::resource('products', \App\Http\Controllers\Admin\ProductsController::class)
         ->except(['show']);
+    Route::get('products/export', [\App\Http\Controllers\Admin\ProductsController::class, 'export'])->name('products.export');
 });
 
 Route::prefix('ajax')->name('ajax.')->group(function () {

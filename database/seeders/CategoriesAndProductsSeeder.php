@@ -21,9 +21,9 @@ class CategoriesAndProductsSeeder extends Seeder
         Storage::deleteDirectory('faker');
 
         Category::factory(2)->create();
-        Category::factory(5)->hasProducts(3)->create();
+        Category::factory(5)->hasProducts(rand(50, 100))->create();
 
         Category::factory(2)->withParent()->create();
-        Category::factory(2)->withParent()->hasProducts(2)->create();
+        Category::factory(2)->withParent()->hasProducts(rand(50, 100))->create();
     }
 }
