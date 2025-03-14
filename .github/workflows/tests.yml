@@ -57,4 +57,4 @@ jobs:
           DB_DATABASE: laravel
           DB_USERNAME: postgres
           DB_PASSWORD: postgres
-        run: php artisan test -n
+        run: php artisan test
