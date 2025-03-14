@@ -1,0 +1,60 @@
+name: Laravel Tests
+
+on:
+  pull_request:
+    types: [opened, reopened, edited, synchronize]
+
+jobs:
+  lint:
+    name: Laravel Tests
+    runs-on: ubuntu-latest
+    services:
+      db:
+        image: postgres
+        env:
+          POSTGRES_PASSWORD: postgres
+          POSTGRES_DB: laravel
+        # Set health checks to wait until postgres has started
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+        ports:
+          - 5432:5432
+
+    steps:
+
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: ${{ matrix.php }}
+          extensions: json, dom, curl, libxml, mbstring
+          coverage: none
+
+      - uses: actions/checkout@v4
+
+      - name: Copy .env
+        run: php -r "file_exists('.env') || copy('.env.action', '.env');"
+
+      - name: Install Dependencies
+        run: composer install -q --no-ansi --no-interaction --no-scripts --no-progress --prefer-dist
+
+      - name: Generate APP key
+        run: php artisan key:generate
+
+      - name: Generate storage link
+        run: php artisan storage:link
+
+      - name: Directory permission
+        run: chmod -R 777 storage bootstrap/cache
+
+      - name: Tests execution
+        env:
+          DB_CONNECTION: pgsql
+          DB_HOST: localhost
+          DB_PORT: 5432
+          DB_DATABASE: laravel
+          DB_USERNAME: postgres
+          DB_PASSWORD: postgres
+        run: php artisan test
