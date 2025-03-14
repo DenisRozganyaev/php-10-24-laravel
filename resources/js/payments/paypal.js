@@ -73,16 +73,15 @@ paypal.Buttons({
             .then(function (response) {
                 const orderData = response.data
 
+                console.log('orderData', orderData)
+
                 iziToast.success({
                     title: 'Order was created!',
-                    position: 'topRight'
-                    // onClosing => thank you page
+                    position: 'topRight',
+                    onClosing: () => {
+                        window.location.href = `orders/${orderData.orderId}/thank-you`
+                    }
                 })
-
-                console.log('Capture result', orderData, JSON.stringify(orderData, null, 2))
-                const transaction = orderData.purchase_units[0].payments.captures[0]
-                console.log('transaction data: ', transaction)
-                alert('Transaction ' + transaction.status + ': ' + transaction.id + '\n\nSee console for all available details')
             })
             .catch((error) => {
                 const errorDetail = Array.isArray(error.data.details) && error.data.details[0]

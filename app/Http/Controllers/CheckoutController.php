@@ -11,6 +11,11 @@ class CheckoutController extends Controller
         $cart = Cart::instance('cart');
         $user = auth()->user();
 
+//        $cart->content()->each(function ($item) use (&$taxSum) {
+//            dump($item->tax());
+//        });
+////        dd($cart->content(), $cart->total(), $cart->tax(), $cart->subtotal());
+
         return view('checkout/index', compact('cart', 'user'));
     }
 }
