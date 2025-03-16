@@ -1,0 +1,22 @@
+{
+    "$schema": "https://raw.githubusercontent.com/railwayapp/railway/main/spec/railway.schema.json",
+
+    "services": [
+        {
+            "name": "my-laravel-service",
+
+            "build": {
+                "context": "docker/8.4",
+                "dockerfile": "Dockerfile.railway"
+            },
+
+            "envVars": {
+                "APP_ENV": {
+                    "value": "production"
+                }
+            }
+        }
+    ],
+    "env": {
+    }
+}
