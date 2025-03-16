@@ -3,7 +3,7 @@
         "my-service": {
             "build": {
                 "context": ".",
-                "dockerfile": "docker/Dockerfile.railway"
+                "dockerfile": "docker/Dockerfile"
             }
         }
     }
