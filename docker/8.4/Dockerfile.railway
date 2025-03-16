@@ -76,8 +76,7 @@ COPY . /var/www/html
 RUN npm install && npm run build && \
     composer install --no-interaction --prefer-dist --no-dev && \
     php artisan optimize:clear && \
-    php artisan storage:link && \
-    php artisan migrate --force \
+    php artisan storage:link \
 
 EXPOSE 80/tcp
 
