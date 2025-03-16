@@ -10,6 +10,18 @@
                 "dockerfile": "Dockerfile.railway"
             },
 
+            "deploy": {
+                "preDeployCommand": [
+                    "npm install",
+                    "npm run build",
+                    "composer install",
+                    "php artisan optimize:clear",
+                    "php artisan storage:link",
+                    "php artisan migrate --force",
+                    "php -d variables_order=EGPCS /var/www/html/artisan serve --host=0.0.0.0 --port=${{PORT:-80}}"
+                ]
+            },
+
             "envVars": {
                 "APP_ENV": {
                     "value": "production"
