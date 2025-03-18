@@ -12,11 +12,11 @@
             "envVars": {
             },
             "deploy": {
-                "preDeployCommand": ["php artisan storage:link", "php artisan db:migrate --force", "php artisan optimize:clear"]
-            },
-            "release": {
-                "command": "php artisan migrate --force"
+                "preDeployCommand": ["php artisan storage:link", "php artisan migrate --force", "php artisan optimize:clear"]
             }
+//            "release": {
+//                "command": "php artisan migrate --force"
+//            }
         }
     ],
     "env": {
