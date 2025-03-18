@@ -14,5 +14,8 @@
         }
     ],
     "env": {
+    },
+    "release": {
+        "command": "php artisan migrate --force"
     }
 }
