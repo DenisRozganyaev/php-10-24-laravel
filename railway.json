@@ -10,12 +10,15 @@
                 "dockerfile": "Dockerfile.railway"
             },
             "envVars": {
+            },
+            "deploy": {
+                "preDeployCommand": ["php artisan storage:link", "php artisan db:migrate --force", "php artisan optimize:clear"]
+            },
+            "release": {
+                "command": "php artisan migrate --force"
             }
         }
     ],
     "env": {
-    },
-    "release": {
-        "command": "php artisan migrate --force"
     }
 }
