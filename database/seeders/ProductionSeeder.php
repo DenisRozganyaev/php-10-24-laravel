@@ -14,7 +14,7 @@ class ProductionSeeder extends Seeder
      */
     public function run(): void
     {
-        $user = User::firstOrCreate([
+        $user = User::firstOrCreate(['email' => 'admin@admin.com'], [
             'name' => 'Admin',
             'lastname' => 'Admin',
             'email' => 'admin@admin.com',
