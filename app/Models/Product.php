@@ -63,7 +63,6 @@ class Product extends Model implements Buyable
                 return cache()->get($key);
             }
 
-            ds($this->attributes['thumbnail']);
             $imageUrl = ! Storage::exists($this->attributes['thumbnail'])
                 ? Storage::disk('public')->url($this->attributes['thumbnail'])
                 : Storage::temporaryUrl($this->attributes['thumbnail'], now()->addMinutes(10));
