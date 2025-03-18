@@ -57,11 +57,11 @@ class PaypalService implements Contracts\PaypalServiceContract
                     'category' => 'PHYSICAL_GOODS',
                     'unit_amount' => [
                         'currency_code' => $currencyCode,
-                        'value' => $item->price(),
+                        'value' => $item->price(2),
                     ],
                     'tax' => [
                         'currency_code' => $currencyCode,
-                        'value' => $item->tax(),
+                        'value' => $item->tax(2),
                     ],
                 ];
             });
@@ -72,15 +72,15 @@ class PaypalService implements Contracts\PaypalServiceContract
                 [
                     'amount' => [
                         'currency_code' => $currencyCode,
-                        'value' => $cart->total(),
+                        'value' => $cart->total(2),
                         'breakdown' => [
                             'item_total' => [
                                 'currency_code' => $currencyCode,
-                                'value' => $cart->subtotal(),
+                                'value' => $cart->subtotal(2),
                             ],
                             'tax_total' => [
                                 'currency_code' => $currencyCode,
-                                'value' => $cart->tax(),
+                                'value' => $cart->tax(2),
                             ],
                         ],
                     ],
