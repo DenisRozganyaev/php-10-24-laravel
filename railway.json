@@ -12,7 +12,12 @@
             "envVars": {
             },
             "deploy": {
-                "preDeployCommand": ["php artisan storage:link", "php artisan migrate --force", "php artisan optimize:clear"]
+                "preDeployCommand": [
+                    "php artisan storage:link",
+                    "php artisan migrate --force",
+                    "php artisan optimize:clear",
+                    "php artisan db:seed --class=\"\\Database\\Seeders\\ProductionSeeder\""
+                ]
             }
         }
     ],
